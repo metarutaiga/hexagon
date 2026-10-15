@@ -1,0 +1,28 @@
+#!/bin/bash
+
+ARGS=""
+while [[ $# > 0 ]] ; do
+    case $1 in
+        -arch)
+        shift ;;
+        -dynamic)
+        ;;
+        -dylib)
+        ARGS=$ARGS" -shared" ;;
+        -F*)
+        ;;
+        -lto_library)
+        shift ;;
+        -platform_version)
+        shift 3 ;;
+        -syslibroot)
+        shift ;;
+        *)
+        ARGS=$ARGS" "$1
+        ;;
+    esac
+    shift
+done
+
+echo /opt/homebrew/opt/lld/bin/ld.lld $ARGS
+/opt/homebrew/opt/lld/bin/ld.lld $ARGS

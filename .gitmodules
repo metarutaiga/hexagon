@@ -1,0 +1,9 @@
+[submodule "sdk/fastrpc"]
+	path = sdk/fastrpc
+	url = https://github.com/qualcomm/fastrpc
+[submodule "sdk/hexagon-hypervisor"]
+	path = sdk/hexagon-hypervisor
+	url = https://github.com/qualcomm/hexagon-hypervisor
+[submodule "sdk/qaic"]
+	path = sdk/qaic
+	url = https://github.com/qualcomm/qaic

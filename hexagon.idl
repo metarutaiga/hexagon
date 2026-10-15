@@ -1,0 +1,9 @@
+#include "remote.idl"
+
+interface hexagon : remote_handle64
+{
+  long info(rout unsigned long arch,
+            rout unsigned long units,
+            rout unsigned long thread,
+            rout unsigned long version);
+};

@@ -1,0 +1,50 @@
+diff --git a/src/Makefile b/src/Makefile
+index b227224..05e500e 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -65,6 +65,9 @@ ifeq ($(findstring linux,$(TARGET_ARCH)),linux)
+ else ifeq ($(findstring windows,$(TARGET_ARCH)),windows)
+ 	SHIP_DIR := WinNT_ReleaseG/ship/
+ 	EXEC_EXT := .exe
++else ifeq ($(findstring osx,$(TARGET_ARCH)),osx)
++	SHIP_DIR := OSX_ReleaseG/ship/
++	EXEC_EXT :=
+ else
+ 	$(error Invalid TARGET_ARCH format: $(TARGET_ARCH). Expected format: <arch>-<os> (e.g., x86_64-linux, aarch64-windows))
+ endif
+@@ -116,14 +119,14 @@ BUILD_COPIES+= $V/ReleaseNotes.html
+ BUILD_COPIES+= ReleaseNotes.txt
+ BUILD_COPIES+= $(SHIP_DIR)/ ;
+ 
+-VERSION := $(shell grep "gitcommit" Compiler/Version.hs | wc -l)
++VERSION := $(shell grep "gitcommit" Compiler/Version.hs | wc -l | sed 's/^[[:space:]]*//')
+ GIT_COMMIT_LEN := 0
+ ifeq ($(VERSION),0)
+ 	GIT_COMMIT = \"$(shell git log -n 1 | head -n 1 | cut -d' ' -f 2)\"
+-	GIT_COMMIT_LEN = $(shell git log -n 1 | head -n 1 | cut -d' ' -f 2 | wc -m)
++	GIT_COMMIT_LEN = $(shell git log -n 1 | head -n 1 | cut -d' ' -f 2 | wc -m | sed 's/^[[:space:]]*//')
+ endif
+ 
+-GHC := $(shell grep "ghcVersion" Compiler/Version.hs | wc -l)
++GHC := $(shell grep "ghcVersion" Compiler/Version.hs | wc -l | sed 's/^[[:space:]]*//')
+ IS_GHC_INSTALLED = 0
+ ifeq ($(GHC),0)
+ 	GHC_FULL_VERSION = \"$(shell ghc --version)\"
+@@ -132,7 +135,7 @@ ifeq ($(GHC),0)
+ 	endif
+ endif
+ 
+-CABAL := $(shell grep "cabalVersion" Compiler/Version.hs | wc -l)
++CABAL := $(shell grep "cabalVersion" Compiler/Version.hs | wc -l | sed 's/^[[:space:]]*//')
+ IS_CABAL_INSTALLED = 0
+ ifeq ($(CABAL),0)
+ 	CABAL_VERSION = \"$(shell cabal --version)\"
+@@ -141,7 +144,7 @@ ifeq ($(CABAL),0)
+ 	endif
+ endif
+ 
+-PLATFORM := $(shell grep "platform" Compiler/Version.hs | wc -l)
++PLATFORM := $(shell grep "platform" Compiler/Version.hs | wc -l | sed 's/^[[:space:]]*//')
+ OS_TYPE = ""
+ ifeq ($(PLATFORM),0)
+ 	ifeq ($(OS),Windows_NT)
